@@ -14,6 +14,17 @@ def tower_hanoi(n, state):
         'B': 'C',
         'C': 'A'
     }
+
+    position = {}
+
+    parts = state.split(',')
+
+    for i in range(3):
+        disks = parts[i].split()
+
+        for disk in disks:
+            position[int(disk)] = pegs[i]
+    
     return 'impossible'
 
 num_case = int(sys.stdin.readline())
