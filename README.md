@@ -79,23 +79,9 @@ disk_moves(k - 1, start, ...)
 
 The largest disk has already moved.
 
-Before that move could happen, the first **k - 1** disks had to be moved out of the way. That takes:
+Before that move could happen, the first **k - 1** disks had to be moved out of the way. That takes **2^(k-1) - 1** moves, followed by one move for disk **k**. So exactly **2^(k-1)** moves have already happened.
 
-**2^(k-1) - 1**
-
-moves, followed by one move for disk **k**.
-
-So exactly:
-
-**2^(k-1)**
-
-moves have already happened.
-
-The smaller disks are now continuing from the spare peg, so I recursively calculate the remaining moves and add:
-
-1 << (k - 1)
-
-to the result.
+The smaller disks are now continuing from the spare peg. Before the largest disk could move, the first k - 1 disks had to be moved out of the way, which takes 2^(k-1) - 1 moves. Moving the largest disk itself takes one more move, so by the time it reaches its destination, exactly 2^(k-1) moves have happened. In Python, 1 << (k - 1) is just a bit-shift way of computing 2^(k-1). I then recursively calculate how many additional moves the smaller disks make from the spare peg and add that to this count.
 
 #### Case 3: The largest disk is on the third peg
 
@@ -113,15 +99,9 @@ If none of A, B, or C can produce the given state, the program returns impossibl
 
 ### Time Complexity: O(n)
 
-The recursive function processes one disk at each level:
+The recursive function processes one disk at each level **T(n) = T(n - 1) + O(1)** so one attempt takes **O(n)** time.
 
-**T(n) = T(n - 1) + O(1)**
-
-so one attempt takes **O(n)** time.
-
-The program tries at most three possible starting pegs. Since three is a constant:
-
-**3 * O(n) = O(n)**
+The program tries at most three possible starting pegs. Since three is a constant **3 * O(n) = O(n)**. 
 
 The input parsing also takes **O(n)** time, so the overall time complexity remains: **O(n)**
 
