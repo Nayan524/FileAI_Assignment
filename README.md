@@ -26,9 +26,7 @@ position[disk] = peg
 
 For example, the state:
 
-1, 2, 3
-
-becomes:
+1, 2, 3 becomes:
 
 disk 1 -> A
 disk 2 -> B
@@ -44,19 +42,24 @@ If every disk is on the same peg, the assignment says to treat that state as the
 
 The input does not tell us whether the disks originally started on A, B, or C, so I try all three possibilities.
 
-For each possible starting peg, I call the recursive **disk_moves** function. If the state cannot be reached from that peg, the function returns -1.
+For each possible starting peg, I call the recursive **disk_moves** function. If the state cannot be reached from that peg, the function returns impossible.
 
 ### 4. Find the destination for the current recursive problem
 
-The assignment fixes the smallest disk's movement in the counterclockwise order:
+The assignment fixes the smallest disk's movement in the counterclockwise order: A -> C -> B -> A
+The direction the whole stack needs to move depends on how many disks are in the current recursive problem.
 
-A -> C -> B -> A
+A simple way to think about it is that with an odd number of disks, the largest disk eventually moves in the same counterclockwise direction as the smallest disk with an even number of disks, it moves in the opposite direction.
 
-Because of this, the destination of a group of disks depends on whether the number of disks is odd or even.
+So once we know the current start peg and the number of disks, we can determine where the largest disk is supposed to go. The third peg is then the spare peg.
 
-For an odd number of disks, the destination is counterclockwise from the starting peg. For an even number of disks, it is clockwise.
+3 disks starting at A
+destination = C
 
-The remaining peg becomes the spare peg.
+4 disks starting at A
+destination = B
+
+This is enough information for the recursive step to decide whether the largest disk has moved yet or not.
 
 ### 5. Check the largest disk
 
@@ -98,15 +101,13 @@ to the result.
 
 That state cannot occur in the required optimal sequence because the largest disk only moves once, directly from its source to its destination.
 
-The function returns -1.
+The function returns impossible
 
 ### 6. Check the allowed move range
 
 The assignment requires the move count to be between **0** and **2^n - 2**, inclusive. If a result is outside that range, it is not accepted.
 
-If none of A, B, or C can produce the given state, the program returns:
-
-impossible
+If none of A, B, or C can produce the given state, the program returns impossible
 
 ## Time and Space Complexity
 
@@ -122,10 +123,7 @@ The program tries at most three possible starting pegs. Since three is a constan
 
 **3 * O(n) = O(n)**
 
-
-The input parsing also takes **O(n)** time, so the overall time complexity remains:
-
-**O(n)**
+The input parsing also takes **O(n)** time, so the overall time complexity remains: **O(n)**
 
 This is much better than simulating the Tower of Hanoi sequence, which can require **O(2^n)** moves.
 
@@ -135,9 +133,7 @@ The **position** dictionary stores one entry for each disk, which takes **O(n)**
 
 The recursive call stack can also contain up to **n** calls, so it uses **O(n)** space.
 
-Therefore, the overall space complexity is:
-
-O(n)
+Therefore, the overall space complexity is: **O(n)**
 
 ## Use of LLMs
 
