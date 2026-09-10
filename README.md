@@ -73,7 +73,9 @@ The largest disk has not moved yet, so the target state must occur in the first 
 
 The problem can therefore be reduced to the first **k - 1** disks:
 
-disk_moves(k - 1, start, ...)
+disk_moves(disks - 1, start, position, pegs, counter_clockwise, clockwise)
+
+Here, disks - 1 represents the smaller disks still being considered, start is the source peg for the current recursive problem, position stores the current peg of each disk, pegs contains the three peg names, and the clockwise/counterclockwise mappings are used to determine the destination peg.
 
 #### Case 2: The largest disk is on its destination peg
 
